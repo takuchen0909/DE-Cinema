@@ -6,9 +6,8 @@ export async function ensureLocalAdmin(){
   const endpoint='http://127.0.0.1:5180';
   async function ready(){try{const r=await fetch(endpoint+'/api/session',{signal:AbortSignal.timeout(600)});return r.ok&&typeof (await r.json()).configured==='boolean';}catch{return false;}}
   if(await ready())return{stop(){}};
-  const oldState=fileURLToPath(new URL('../../Diaspora-Local-Admin/.private/',import.meta.url));
   const site=fileURLToPath(new URL(existsSync(fileURLToPath(new URL('dist/index.html',root)))?'dist/':'public/',root));
-  const child=spawn(process.execPath,[fileURLToPath(new URL('local-admin/server.mjs',root))],{cwd:fileURLToPath(root),stdio:'inherit',env:{...process.env,CMS_SITE_DIR:site,...(existsSync(oldState)&&!process.env.CMS_STATE_DIR?{CMS_STATE_DIR:oldState}:{})}});
+  const child=spawn(process.execPath,[fileURLToPath(new URL('local-admin/server.mjs',root))],{cwd:fileURLToPath(root),stdio:'inherit',env:{...process.env,CMS_SITE_DIR:site}});
   let exited=false;child.on('exit',()=>{exited=true;});
   child.on('error',()=>{exited=true;});
   const stop=()=>{if(!exited)child.kill();};

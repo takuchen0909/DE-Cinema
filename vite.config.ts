@@ -15,4 +15,4 @@ const localProxy:ProxyOptions={target:"http://127.0.0.1:5180",changeOrigin:true,
     try{const parsed=new URL(origin);if(parsed.host===request.headers.host&&["127.0.0.1","localhost","[::1]"].includes(parsed.hostname))outgoing.setHeader("Origin","http://127.0.0.1:5180");}catch{}
   });
 }};
-export default defineConfig(({command})=>({base:command==="serve"?"/Tiki/":"./",plugins:[react(),localArchive()],resolve:{alias:{"@":fileURLToPath(new URL(".",import.meta.url))}},server:{host:"127.0.0.1",port:5174,proxy:{"/api/":localProxy,"/local-image/":localProxy,"/Tiki/uploads/":localProxy,"/Tiki/archive.json":localProxy}}}));
+export default defineConfig(({command})=>({base:command==="serve"?"/DE-Cinema/":"./",plugins:[react(),localArchive()],resolve:{alias:{"@":fileURLToPath(new URL(".",import.meta.url))}},server:{host:"127.0.0.1",port:5174,proxy:{"/api/":localProxy,"/local-image/":localProxy,"/DE-Cinema/uploads/":localProxy,"/DE-Cinema/archive.json":localProxy}}}));

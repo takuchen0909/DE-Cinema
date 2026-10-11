@@ -18,7 +18,7 @@
 <section id="workspace" class="admin" hidden>
   <header class="admin-top">
     <a class="logo" href="../#home" target="_blank" aria-label="Diaspora East Cinema home"><img class="logo-color" src="../assets/logo.webp" alt="Diaspora East Cinema"></a>
-    <a href="https://lesley-qing-gu.github.io../" target="_blank" rel="noreferrer">View site</a>
+    <a href="https://takuchen0909.github.io/DE-Cinema/" target="_blank" rel="noreferrer">View site</a>
     <a href="../#news" target="_blank">Preview draft</a>
     <button id="sync">Sync from website</button>
     <button id="logout">Sign out</button>
@@ -46,7 +46,7 @@
     <p id="empty" class="empty" hidden>No entries yet. Add an entry to get started.</p>
   </div>
 </section>
-<dialog id="connection-dialog" class="delete-dialog"><form id="connection-form"><h2>Connect GitHub</h2><p>This computer only needs to connect once. Your authorization stays on this computer.</p><p>Create a fine-grained personal access token for the Tiki repository only. Set Contents to Read and write, and Actions to Read-only.</p><a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noreferrer">Open GitHub authorization settings</a><label>Access token<input id="token" type="password" autocomplete="off" required></label><p id="connection-error" role="alert"></p><div class="delete-footer"><button type="button" id="connection-cancel" class="delete-cancel">Cancel</button><button class="delete-confirm">Connect</button></div></form></dialog>
+<dialog id="connection-dialog" class="delete-dialog"><form id="connection-form"><h2>Connect GitHub</h2><p>This computer only needs to connect once. Your authorization stays on this computer.</p><p>Create a fine-grained personal access token for the DE-Cinema repository only. Set Contents to Read and write, and Actions to Read-only.</p><a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noreferrer">Open GitHub authorization settings</a><label>Access token<input id="token" type="password" autocomplete="off" required></label><p id="connection-error" role="alert"></p><div class="delete-footer"><button type="button" id="connection-cancel" class="delete-cancel">Cancel</button><button class="delete-confirm">Connect</button></div></form></dialog>
 <dialog id="delete-dialog" class="delete-dialog"><form method="dialog"><h2>Delete this entry?</h2><p>It will be removed from your draft. The live site changes only when you publish.</p><div class="delete-footer"><button value="cancel" class="delete-cancel">Cancel</button><button id="delete-confirm" value="delete" class="delete-confirm">Delete entry</button></div></form></dialog>
 <dialog id="sync-dialog" class="delete-dialog"><form method="dialog"><h2>Replace your draft with the published website?</h2><p>Your unpublished local edits will be replaced. Cancel to keep your draft.</p><div class="delete-footer"><button value="cancel" class="delete-cancel">Cancel</button><button id="sync-confirm" value="sync" class="delete-confirm">Sync from website</button></div></form></dialog>
 <script src="./editor.js" type="module"></script>

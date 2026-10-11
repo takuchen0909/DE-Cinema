@@ -3,7 +3,7 @@
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Diaspora East Cinema · Archive CMS</title><link rel="stylesheet" href="/editor.css"></head>
 <body>
 <main id="login" class="signin cms-password">
-  <a class="logo" href="/Tiki/#home" target="_blank"><img src="/Tiki/assets/logo.webp" alt="Diaspora East Cinema"></a>
+  <a class="logo" href="/DE-Cinema/#home" target="_blank"><img src="/DE-Cinema/assets/logo.webp" alt="Diaspora East Cinema"></a>
   <h1 id="login-title">Archive CMS</h1>
   <p id="login-copy">Loading…</p>
   <form id="login-form" hidden>
@@ -13,13 +13,13 @@
     <button class="signin-button" id="login-button">Sign in</button>
   </form>
   <p id="login-error" class="login-error" role="alert"></p>
-  <a href="/Tiki/#news" target="_blank">View site</a>
+  <a href="/DE-Cinema/#news" target="_blank">View site</a>
 </main>
 <section id="workspace" class="admin" hidden>
   <header class="admin-top">
-    <a class="logo" href="/Tiki/#home" target="_blank" aria-label="Diaspora East Cinema home"><img class="logo-color" src="/Tiki/assets/logo.webp" alt="Diaspora East Cinema"></a>
-    <a href="https://lesley-qing-gu.github.io/Tiki/" target="_blank" rel="noreferrer">View site</a>
-    <a href="/Tiki/#news" target="_blank">Preview draft</a>
+    <a class="logo" href="/DE-Cinema/#home" target="_blank" aria-label="Diaspora East Cinema home"><img class="logo-color" src="/DE-Cinema/assets/logo.webp" alt="Diaspora East Cinema"></a>
+    <a href="https://takuchen0909.github.io/DE-Cinema/" target="_blank" rel="noreferrer">View site</a>
+    <a href="/DE-Cinema/#news" target="_blank">Preview draft</a>
     <button id="sync">Sync from website</button>
     <button id="logout">Sign out</button>
     <button id="connect" hidden>Connect GitHub</button>
@@ -46,7 +46,7 @@
     <p id="empty" class="empty" hidden>No entries yet. Add an entry to get started.</p>
   </div>
 </section>
-<dialog id="connection-dialog" class="delete-dialog"><form id="connection-form"><h2>Connect GitHub</h2><p>This computer only needs to connect once. Your authorization stays on this computer.</p><p>Create a fine-grained personal access token for the Tiki repository only. Set Contents to Read and write, and Actions to Read-only.</p><a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noreferrer">Open GitHub authorization settings</a><label>Access token<input id="token" type="password" autocomplete="off" required></label><p id="connection-error" role="alert"></p><div class="delete-footer"><button type="button" id="connection-cancel" class="delete-cancel">Cancel</button><button class="delete-confirm">Connect</button></div></form></dialog>
+<dialog id="connection-dialog" class="delete-dialog"><form id="connection-form"><h2>Connect GitHub</h2><p>This computer only needs to connect once. Your authorization stays on this computer.</p><p>Create a fine-grained personal access token for the DE-Cinema repository only. Set Contents to Read and write, and Actions to Read-only.</p><a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noreferrer">Open GitHub authorization settings</a><label>Access token<input id="token" type="password" autocomplete="off" required></label><p id="connection-error" role="alert"></p><div class="delete-footer"><button type="button" id="connection-cancel" class="delete-cancel">Cancel</button><button class="delete-confirm">Connect</button></div></form></dialog>
 <dialog id="delete-dialog" class="delete-dialog"><form method="dialog"><h2>Delete this entry?</h2><p>It will be removed from your draft. The live site changes only when you publish.</p><div class="delete-footer"><button value="cancel" class="delete-cancel">Cancel</button><button id="delete-confirm" value="delete" class="delete-confirm">Delete entry</button></div></form></dialog>
 <dialog id="sync-dialog" class="delete-dialog"><form method="dialog"><h2>Replace your draft with the published website?</h2><p>Your unpublished local edits will be replaced. Cancel to keep your draft.</p><div class="delete-footer"><button value="cancel" class="delete-cancel">Cancel</button><button id="sync-confirm" value="sync" class="delete-confirm">Sync from website</button></div></form></dialog>
 <script src="/editor.js" type="module"></script>
