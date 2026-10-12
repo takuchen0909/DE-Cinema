@@ -3,11 +3,11 @@
     {
       "id": "news-shore",
       "section": "news",
-      "title": "Notes from the shore",
+      "title": "UPCOMING",
       "category": "",
       "date": "",
-      "description": "",
-      "image": "/assets/sea.jpg"
+      "description": "Stay Tuned",
+      "image": "/uploads/f8a03bda60aff769534add25391b1bd6.webp"
     },
     {
       "id": "news-invitation",
@@ -41,11 +41,11 @@
     {
       "id": "news-shore",
       "section": "news",
-      "title": "Notes from the shore",
+      "title": "UPCOMING",
       "category": "",
       "date": "",
-      "description": "",
-      "image": "/assets/sea.jpg"
+      "description": "Stay Tuned",
+      "image": "/uploads/f8a03bda60aff769534add25391b1bd6.webp"
     },
     {
       "id": "news-invitation",
@@ -75,5 +75,5 @@
       "image": ""
     }
   ],
-  "revision": 1791539341939
+  "revision": 1791838888933
 }
