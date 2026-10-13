@@ -19,38 +19,38 @@
 }
 
 :root {
-  --background: #000000;
-  --foreground: #59B04E;
+  --background: #FFFFFF;
+  --foreground: #000000;
   --heading: #D03D90;
-  --card: #000000;
-  --card-foreground: #59B04E;
-  --popover: #000000;
-  --popover-foreground: #59B04E;
+  --card: #FFFFFF;
+  --card-foreground: #000000;
+  --popover: #FFFFFF;
+  --popover-foreground: #000000;
   --primary: #D03D90;
-  --primary-foreground: #000000;
-  --secondary: #000000;
-  --secondary-foreground: #59B04E;
-  --muted: #000000;
-  --muted-foreground: #59B04E;
+  --primary-foreground: #FFFFFF;
+  --secondary: #FFFFFF;
+  --secondary-foreground: #000000;
+  --muted: #FFFFFF;
+  --muted-foreground: #000000;
   --accent: #D03D90;
-  --accent-foreground: #000000;
+  --accent-foreground: #FFFFFF;
   --destructive: #D03D90;
-  --border: #59B04E;
-  --input: #59B04E;
+  --border: #000000;
+  --input: #000000;
   --ring: #D03D90;
   --chart-1: #D03D90;
-  --chart-2: #59B04E;
+  --chart-2: #000000;
   --chart-3: #D03D90;
-  --chart-4: #59B04E;
+  --chart-4: #000000;
   --chart-5: #D03D90;
   --radius: 0.15rem;
-  --sidebar: #000000;
-  --sidebar-foreground: #59B04E;
+  --sidebar: #FFFFFF;
+  --sidebar-foreground: #000000;
   --sidebar-primary: #D03D90;
-  --sidebar-primary-foreground: #000000;
+  --sidebar-primary-foreground: #FFFFFF;
   --sidebar-accent: #D03D90;
-  --sidebar-accent-foreground: #000000;
-  --sidebar-border: #59B04E;
+  --sidebar-accent-foreground: #FFFFFF;
+  --sidebar-border: #000000;
   --sidebar-ring: #D03D90;
 }
 
@@ -201,7 +201,7 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
 
 .card-summary{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;overflow-wrap:anywhere}
 .event-gallery{width:100%;min-width:0}
-.gallery-stage{display:flex;justify-content:center;align-items:center;min-height:200px;background:rgba(89,176,78,.04);border:1px solid var(--border);touch-action:pan-y}
+.gallery-stage{display:flex;justify-content:center;align-items:center;min-height:200px;background:rgba(0,0,0,.04);border:1px solid var(--border);touch-action:pan-y}
 .gallery-stage img,.gallery-stage video{display:block;width:100%;height:min(60vh,600px);object-fit:contain}
 .gallery-controls{display:flex;justify-content:center;align-items:center;gap:24px;margin-top:12px}
 .gallery-controls button{min-width:44px;min-height:44px;border:1px solid var(--border)}
