@@ -1,0 +1,46 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {spawn} from 'node:child_process';
+import {mkdtemp,writeFile,readFile,rm} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import path from 'node:path';
+import {validEntryMedia,uploadPaths,inspectUpload,VIDEO_LIMIT} from '../local-admin/media.mjs';
+const mp4=Buffer.concat([Buffer.from([0,0,0,24]),Buffer.from('ftypisom'),Buffer.alloc(16)]);
+const png=Buffer.from([137,80,78,71,13,10,26,10,0]);
+const entry={id:'test',section:'past',title:'Test event',category:'',date:'',description:'Full description',image:'/assets/sea.jpg'};
+test('legacy covers, media validation and publish file collection',()=>{
+ assert.equal(validEntryMedia(entry),true);
+ const updated={...entry,image:'/uploads/cover.png',summary:'Short summary',media:[{type:'image',src:'/uploads/photo.png'},{type:'video',src:'/uploads/film.mp4'},{type:'image',src:'/uploads/cover.png'}]};
+ assert.equal(validEntryMedia(updated),true);
+ assert.deepEqual(uploadPaths([updated]),['/uploads/cover.png','/uploads/photo.png','/uploads/film.mp4']);
+ for(const media of [[{type:'video',src:'https://outside.example/video.mp4'}],[{type:'image',src:'/uploads/../secret.jpg'}],[{type:'image',src:'/uploads/film.mp4'}],Array(31).fill({type:'image',src:'/assets/sea.jpg'})])assert.equal(validEntryMedia({...entry,media}),false);
+ assert.equal(validEntryMedia({...entry,summary:'x'.repeat(141)}),false);
+ assert.deepEqual(inspectUpload(mp4,'video/mp4'),{ext:'mp4',type:'video'});
+ assert.equal(inspectUpload(png,'video/mp4'),null);
+ assert.equal(inspectUpload(Buffer.alloc(VIDEO_LIMIT+1),'video/mp4'),null);
+ const webm=Buffer.concat([Buffer.from([0x1a,0x45,0xdf,0xa3]),Buffer.from('webm')]);
+ assert.deepEqual(inspectUpload(webm,'video/webm'),{ext:'webm',type:'video'});
+});
+test('upload, save, reload, preview ranges and publish all media atomically',async()=>{
+ const state=await mkdtemp(path.join(tmpdir(),'cinema-media-test-'));const log=path.join(state,'requests.jsonl');const archive=path.join(state,'archive.json');
+ await writeFile(archive,JSON.stringify({entries:[entry]}));await writeFile(path.join(state,'github.json'),JSON.stringify({token:'test-only-not-a-real-token'}));
+ const base='http://127.0.0.1:5196';const child=spawn(process.execPath,['--import','./tests/support/github-fixture.mjs','local-admin/server.mjs'],{env:{...process.env,CMS_PORT:'5196',CMS_STATE_DIR:state,CMS_SITE_DIR:path.resolve('dist'),CMS_TEST_LOG:log,CMS_TEST_ARCHIVE:archive},stdio:'pipe'});
+ try{
+  let ready=false;for(let i=0;i<50;i++){try{if((await fetch(base+'/api/session',{signal:AbortSignal.timeout(500)})).ok){ready=true;break;}}catch{}await new Promise(r=>setTimeout(r,100));}assert.ok(ready);
+  assert.equal((await fetch(base+'/api/upload',{method:'POST',headers:{Origin:base},body:png})).status,401);
+  const login=await fetch(base+'/api/session',{method:'POST',headers:{Origin:base,'Content-Type':'application/json'},body:JSON.stringify({action:'setup',password:'temporary-test-password'})});assert.equal(login.status,200);
+  const headers={Cookie:login.headers.get('set-cookie').split(';')[0],Origin:base,'Content-Type':'application/json'};
+  const api=async(endpoint,options={})=>{const r=await fetch(base+'/api/'+endpoint,{...options,headers:{...headers,...options.headers}});const data=await r.json();assert.equal(r.status,200,JSON.stringify(data));return data;};
+  const doc=await api('archive');const photo=await api('upload',{method:'POST',headers:{'Content-Type':'image/png'},body:png});const video=await api('upload',{method:'POST',headers:{'Content-Type':'video/mp4'},body:mp4});
+  assert.equal(video.type,'video');const entries=[{...doc.entries[0],summary:'Short preview',media:[{type:photo.type,src:photo.url},{type:video.type,src:video.url}]}];
+  const draft=await api('archive',{method:'PUT',body:JSON.stringify({action:'draft',entries,revision:doc.revision})});assert.deepEqual((await api('archive')).entries,entries);
+  assert.deepEqual((await (await fetch(base+'/DE-Cinema/archive.json')).json()).entries,entries);
+  const range=await fetch(base+'/DE-Cinema'+video.url,{headers:{Range:'bytes=4-11'}});assert.equal(range.status,206);assert.equal(range.headers.get('content-type'),'video/mp4');assert.equal(await range.text(),'ftypisom');
+  assert.equal((await fetch(base+'/DE-Cinema'+video.url,{headers:{Range:'bytes=999-'}})).status,416);
+  const invalid=await fetch(base+'/api/archive',{method:'PUT',headers,body:JSON.stringify({action:'draft',entries:[{...entry,media:[{type:'video',src:'/uploads/../../private.mp4'}]}],revision:draft.revision})});assert.equal(invalid.status,400);
+  const published=await api('archive',{method:'PUT',body:JSON.stringify({action:'publish',entries,revision:draft.revision})});assert.equal(published.commit,'a'.repeat(40));
+  const requests=(await readFile(log,'utf8')).trim().split('\n').map(line=>JSON.parse(line));const tree=requests.find(r=>r.endpoint.endsWith('/git/trees')).body;
+  assert.deepEqual(tree.tree.map(t=>t.path).sort(),['public'+photo.url,'public'+video.url,'public/archive.json'].sort());assert.equal(tree.base_tree,'tree-before');
+  const update=requests.find(r=>r.endpoint.endsWith('/git/refs/heads/main'));assert.equal(update.body.force,false);
+ }finally{if(child.exitCode===null){child.kill();await new Promise(r=>child.once('exit',r));}await rm(state,{recursive:true,force:true});}
+});

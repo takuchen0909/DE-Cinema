@@ -80,3 +80,12 @@ dialog a{border-bottom:1px solid currentColor}
 .admin-top{justify-content:flex-start}
 .admin-top>.logo{margin-right:auto;align-self:center}
 @media(max-width:600px){.admin-top>.logo{width:44px}}
+
+.field small{font-size:var(--note-size)}
+.media-list{display:flex;flex-direction:column;gap:20px;margin-bottom:32px}
+.media-item{display:flex;gap:20px;padding:16px;border:1px solid var(--border)}
+.media-item img,.media-item video{width:180px;max-width:45%;height:140px;object-fit:contain;background:rgba(89,176,78,.05)}
+.media-actions{display:flex;flex-wrap:wrap;gap:8px 18px;align-content:start;font-size:14px}
+.media-actions span{width:100%;color:var(--heading)}
+.media-actions button{text-decoration:underline;text-underline-offset:4px;min-height:36px}
+@media(max-width:600px){.media-item{flex-direction:column}.media-item img,.media-item video{width:100%;max-width:100%;height:180px}}

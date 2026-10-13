@@ -1,0 +1,20 @@
+import {readFile,appendFile} from 'node:fs/promises';
+const originalFetch=globalThis.fetch;
+globalThis.fetch=async(input,options={})=>{
+  const url=String(input);
+  if(!url.startsWith('https://api.github.com/'))return originalFetch(input,options);
+  const endpoint=url.slice('https://api.github.com'.length),method=options.method||'GET';
+  await appendFile(process.env.CMS_TEST_LOG,JSON.stringify({endpoint,method,body:options.body?JSON.parse(options.body):null})+'\n');
+  let data;
+  if(endpoint.includes('/contents/public/archive.json'))data={sha:'archive-before',content:Buffer.from(await readFile(process.env.CMS_TEST_ARCHIVE,'utf8')).toString('base64')};
+  else if(endpoint.endsWith('/git/ref/heads/main'))data={object:{sha:'head-before'}};
+  else if(endpoint.endsWith('/git/commits/head-before'))data={tree:{sha:'tree-before'}};
+  else if(endpoint.endsWith('/git/blobs'))data={sha:'blob-after'};
+  else if(endpoint.endsWith('/git/trees'))data={sha:'tree-after'};
+  else if(endpoint.endsWith('/git/commits'))data={sha:'a'.repeat(40)};
+  else if(endpoint.endsWith('/git/refs/heads/main'))data={object:{sha:'a'.repeat(40)}};
+  else if(endpoint.includes('/contents/'))data={sha:'existing-file'};
+  else if(endpoint.includes('/actions/'))data={workflow_runs:[{status:'completed',conclusion:'success'}]};
+  else data={permissions:{push:true}};
+  return Response.json(data);
+};

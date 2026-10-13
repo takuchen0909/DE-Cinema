@@ -1,4 +1,5 @@
-export type Entry = { id: string; section: "news" | "past"; title: string; category: string; date: string; description: string; image: string };
+export type Media = { type: "image" | "video"; src: string };
+export type Entry = { id: string; section: "news" | "past"; title: string; category: string; date: string; description: string; image: string; summary?: string; media?: Media[] };
 export const initialEntries: Entry[] = [
 {id:"news-shore",section:"news",title:"Notes from the shore",category:"",date:"",description:"",image:"/assets/sea.jpg"},
 {id:"news-invitation",section:"news",title:"An open invitation",category:"",date:"",description:"",image:""},
@@ -9,3 +10,8 @@ export const initialEntries: Entry[] = [
 ];
 
 export function assetSrc(src:string){const path=src==="/assets/screening.jpg"?"/assets/screening.webp":src;return path.startsWith("/")?import.meta.env.BASE_URL+path.slice(1):path;}
+
+export function entrySummary(entry:Entry){
+  const text=(entry.summary?.trim()||entry.description).replace(/\s+/g," ").trim();
+  return Array.from(text).length>140?Array.from(text).slice(0,137).join("").trimEnd()+"…":text;
+}
