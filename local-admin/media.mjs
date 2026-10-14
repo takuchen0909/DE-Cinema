@@ -8,7 +8,7 @@ export function validEntryMedia(entry){
     (entry.summary===undefined||(typeof entry.summary==='string'&&entry.summary.length<=140))&&
     (entry.media===undefined||(Array.isArray(entry.media)&&entry.media.length<=MEDIA_LIMIT&&entry.media.every(item=>item&&typeof item.src==='string'&&((item.type==='image'&&imagePath.test(item.src))||(item.type==='video'&&videoPath.test(item.src))))));
 }
-export function uploadPaths(entries){return [...new Set(entries.flatMap(entry=>[entry.image,...(entry.media||[]).map(item=>item.src)]).filter(src=>src.startsWith('/uploads/')))];}
+export function uploadPaths(entries,aboutImage){return [...new Set([...entries.flatMap(entry=>[entry.image,...(entry.media||[]).map(item=>item.src)]),...(aboutImage?[aboutImage.src]:[])].filter(src=>src.startsWith('/uploads/')))];}
 export function inspectUpload(bytes,type){
   const ext={'image/jpeg':'jpg','image/png':'png','image/webp':'webp','image/gif':'gif','video/mp4':'mp4','video/webm':'webm'}[type];
   const video=ext==='mp4'||ext==='webm';
@@ -16,3 +16,7 @@ export function inspectUpload(bytes,type){
   if(!valid||bytes.length>(video?VIDEO_LIMIT:IMAGE_LIMIT))return null;
   return {ext,type:video?'video':'image'};
 }
+
+export const defaultAboutImage={src:'/assets/screening.webp',zoom:1,x:50,y:50};
+export function validAboutImage(image){return !!image&&typeof image.src==='string'&&imagePath.test(image.src)&&Number.isFinite(image.zoom)&&image.zoom>=1&&image.zoom<=3&&['x','y'].every(key=>Number.isFinite(image[key])&&image[key]>=0&&image[key]<=100);}
+export function withAboutImage(doc){return {...doc,aboutImage:doc.aboutImage??{...defaultAboutImage},publishedAboutImage:doc.publishedAboutImage??{...defaultAboutImage}};}

@@ -58,3 +58,10 @@ Clicking the opening video or scrolling the mouse wheel downward scrolls to Abou
 Social media 的信封按钮展开 `info@decinema.nl`，点击邮箱可以写信。
 
 检查：`npm run check`、`npm run build`、`node --test tests/local-admin.test.mjs`。测试使用临时草稿和模拟 GitHub，不会改动线上内容。
+
+
+## ABOUT US 图片管理
+
+本地后台的 **ABOUT US** 面板可以更换图片（最大 10 MB），通过拖动、横向/纵向滑块调整位置，并用 100%–300% 缩放控制裁剪范围。裁剪是非破坏性的，原始文件保留；`Reset crop` 恢复居中、100%。Desktop / Mobile 提供两种取景预览，实际显示范围随屏幕尺寸变化。
+
+`Save draft` 保存图片及取景设置，然后点击 `Preview saved draft on website` 查看页面。`Publish changes` 将图片和设置一起发布。ABOUT US 桌面端文字与图片按 3:2 分栏，三段正文使用相同字号与常规字重；手机端上下排列。

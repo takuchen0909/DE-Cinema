@@ -30,7 +30,7 @@
   <p id="error" class="error" role="alert" hidden></p>
   <div class="admin-body">
     <aside class="admin-sidebar">
-      <nav><button data-section="news">NEWS</button><button data-section="past">ARCHIVE</button></nav>
+      <nav><button data-section="about">ABOUT US</button><button data-section="news">NEWS</button><button data-section="past">ARCHIVE</button></nav>
       <button id="add" class="add-entry">+ Add entry</button>
       <div id="entries" class="entry-list"></div>
     </aside>
@@ -46,6 +46,26 @@
       <label class="field cover-field"><span>Event photos &amp; videos</span><input id="media-upload" type="file" multiple accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,.mp4,.webm"><small>Select several files. Images: up to 10 MB each. MP4 / WebM videos: up to 25 MB each (MP4 with H.264 recommended). Up to 30 items. The cover appears first in the carousel.</small><small id="media-upload-state" role="status"></small></label>
       <div id="media-list" class="media-list" aria-label="Event photos and videos"></div>
     </main>
+    <section id="about-editor" class="editor" hidden>
+      <h1>ABOUT US image</h1>
+      <label class="field cover-field"><span>Replace image</span><input id="about-upload" type="file" accept="image/jpeg,image/png,image/webp,image/gif"><small>JPG, PNG, WebP or GIF, up to 10 MB. Your original image is preserved.</small></label>
+      <p id="about-upload-state" role="status"></p>
+      <div class="crop-layout">
+        <div class="crop-preview-column">
+          <div class="crop-mode"><button type="button" data-crop-mode="desktop" aria-pressed="true">Desktop</button><button type="button" data-crop-mode="mobile" aria-pressed="false">Mobile</button></div>
+          <div id="about-crop" class="about-crop"><img id="about-preview" alt="About image crop preview" draggable="false"></div>
+          <p class="crop-note">Drag to position the image. The frame crops the visible area; zoom in to crop more tightly. Final framing adapts to the visitor’s screen size.</p>
+        </div>
+        <div class="crop-controls">
+          <label class="field"><span>Zoom / crop <output id="about-zoom-value"></output></span><input id="about-zoom" data-about-field="zoom" type="range" min="1" max="3" step="0.01"></label>
+          <label class="field"><span>Horizontal position <output id="about-x-value"></output></span><input id="about-x" data-about-field="x" type="range" min="0" max="100" step="1"></label>
+          <label class="field"><span>Vertical position <output id="about-y-value"></output></span><input id="about-y" data-about-field="y" type="range" min="0" max="100" step="1"></label>
+          <button type="button" id="about-reset">Reset crop</button>
+          <a class="crop-page-preview" href="/DE-Cinema/#about" target="_blank">Preview saved draft on website ↗</a>
+          <p class="crop-note">Save draft to preview on the website. Publish changes to update the live site.</p>
+        </div>
+      </div>
+    </section>
     <p id="empty" class="empty" hidden>No entries yet. Add an entry to get started.</p>
   </div>
 </section>

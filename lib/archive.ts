@@ -15,3 +15,6 @@ export function entrySummary(entry:Entry){
   const text=(entry.summary?.trim()||entry.description).replace(/\s+/g," ").trim();
   return Array.from(text).length>140?Array.from(text).slice(0,137).join("").trimEnd()+"…":text;
 }
+
+export type AboutImage = {src:string;zoom:number;x:number;y:number};
+export const defaultAboutImage:AboutImage={src:"/assets/screening.webp",zoom:1,x:50,y:50};
