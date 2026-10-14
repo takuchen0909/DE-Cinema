@@ -183,11 +183,9 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
 .enquiry-form button:hover{background:var(--foreground)}
 .form-note{margin:20px 0 0;font-size:var(--note-size)}
 .contact-links{padding:100px 6vw}
-.social-icons{display:flex;flex-wrap:wrap;align-items:center;gap:20px}
-.social-link{display:flex;align-items:center;justify-content:center;width:56px;height:56px;color:var(--foreground);transition:color .2s}
+.social-icons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));align-items:center;gap:20px;width:284px;max-width:100%}
+.social-link{display:flex;align-items:center;justify-content:center;width:100%;min-width:0;height:56px;padding:0;color:var(--foreground);transition:color .2s}
 .social-link svg{display:block;width:36px;height:36px}
-.social-link-xiaohongshu{width:84px}
-.social-link-xiaohongshu svg{width:72px;height:48px}
 .social-link:hover,.social-link:focus-visible{color:var(--heading)}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 @media(min-width:1700px){.card-grid{max-width:1500px;margin:auto}}
