@@ -152,7 +152,7 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
 .placeholder img{width:60%;height:60%;object-fit:contain}
 .card h3{display:flex;justify-content:space-between;gap:15px;margin:0}
 .card h3>span:last-child{transition:transform .2s}
-.card h3>.typewriter{flex:1;min-width:0}
+.card h3>.card-title{flex:1;min-width:0}
 .card:hover h3>span:last-child{transform:translate(3px,-3px)}
 .category{color:var(--foreground);margin:12px 0 0;font-size:var(--note-size);letter-spacing:.06em;line-height:1.5}
 .card-overlay{position:absolute;inset:auto 0 0;background:var(--heading);color:var(--background);padding:18px;opacity:0;transition:opacity .2s;max-height:100%;overflow:hidden}
@@ -171,7 +171,8 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
 .article h1{margin:24px 0;font-size:var(--title-size)}
 .article p{margin:24px 0}
 .article p.category{font-size:var(--note-size)}
-.description{white-space:pre-wrap}
+.description{white-space:pre-wrap;overflow-wrap:anywhere}
+.description a{text-decoration:underline;text-underline-offset:3px}.description a:hover{color:var(--heading)}
 .contact-section{display:grid;grid-template-columns:1fr 1fr;padding:0}
 .contact-intro{padding:100px 6vw;border-right:1px solid var(--border)}
 .contact-intro h2,.contact-links h2{margin:0 0 32px}
@@ -195,9 +196,6 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
 @media(hover:none){.card-overlay{opacity:1}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}.hero-video,.hero-logo-wrap{transform:none;will-change:auto}}
 
-.typewriter{display:block;position:relative}
-.typewriter-reserve{visibility:hidden}
-.typewriter-ink{position:absolute;inset:0;white-space:inherit;overflow-wrap:inherit}
 
 .admin-frame{display:block;width:100%;height:100dvh;border:0;background:var(--background)}
 

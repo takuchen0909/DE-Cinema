@@ -1,3 +1,4 @@
+import {descriptionParts} from "./description";
 export type Media = { type: "image" | "video"; src: string };
 export type Entry = { id: string; section: "news" | "past"; title: string; category: string; date: string; description: string; image: string; coverCrop?: {zoom:number;x:number;y:number}; summary?: string; media?: Media[] };
 export const initialEntries: Entry[] = [
@@ -12,7 +13,7 @@ export const initialEntries: Entry[] = [
 export function assetSrc(src:string){const path=src==="/assets/screening.jpg"?"/assets/screening.webp":src;return path.startsWith("/")?import.meta.env.BASE_URL+path.slice(1):path;}
 
 export function entrySummary(entry:Entry){
-  const text=(entry.summary?.trim()||entry.description).replace(/\s+/g," ").trim();
+  const text=(entry.summary?.trim()||(entry.section==="past"?descriptionParts(entry.description).map(part=>part.text).join(""):entry.description)).replace(/\s+/g," ").trim();
   return Array.from(text).length>140?Array.from(text).slice(0,137).join("").trimEnd()+"…":text;
 }
 
