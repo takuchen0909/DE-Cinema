@@ -63,7 +63,12 @@
           "type": "image",
           "src": "/uploads/dc5296174e913e383fe964d6d3d4bf01.png"
         }
-      ]
+      ],
+      "coverCrop": {
+        "zoom": 1.05,
+        "x": 59.67035060975608,
+        "y": 0
+      }
     }
   ],
   "published": [
@@ -124,8 +129,13 @@
           "type": "image",
           "src": "/uploads/dc5296174e913e383fe964d6d3d4bf01.png"
         }
-      ]
+      ],
+      "coverCrop": {
+        "zoom": 1.05,
+        "x": 59.67035060975608,
+        "y": 0
+      }
     }
   ],
-  "revision": 1791994278481
+  "revision": 1792009154928
 }
