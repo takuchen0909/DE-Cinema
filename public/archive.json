@@ -1,4 +1,10 @@
 {
+  "aboutImage": {
+    "src": "/assets/screening.webp",
+    "zoom": 1,
+    "x": 62.84890712248119,
+    "y": 50
+  },
   "entries": [
     {
       "id": "news-shore",
@@ -121,5 +127,5 @@
       ]
     }
   ],
-  "revision": 1791925348956
+  "revision": 1791994278481
 }
