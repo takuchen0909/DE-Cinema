@@ -9,10 +9,10 @@
     {
       "id": "news-shore",
       "section": "news",
-      "title": "UPCOMING",
-      "category": "",
-      "date": "",
-      "description": "Stay Tuned",
+      "title": "Zhou Hao Glances Back",
+      "category": "UPCOMING",
+      "date": "Stay Tuned",
+      "description": "Image, Access, and The Changing Contexts of Seeing",
       "image": "/uploads/f8a03bda60aff769534add25391b1bd6.webp"
     },
     {
@@ -91,10 +91,10 @@
     {
       "id": "news-shore",
       "section": "news",
-      "title": "UPCOMING",
-      "category": "",
-      "date": "",
-      "description": "Stay Tuned",
+      "title": "Zhou Hao Glances Back",
+      "category": "UPCOMING",
+      "date": "Stay Tuned",
+      "description": "Image, Access, and The Changing Contexts of Seeing",
       "image": "/uploads/f8a03bda60aff769534add25391b1bd6.webp"
     },
     {
@@ -169,5 +169,5 @@
       }
     }
   ],
-  "revision": 1792012194305
+  "revision": 1792013081942
 }
