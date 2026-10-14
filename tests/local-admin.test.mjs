@@ -2,14 +2,20 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {spawn} from 'node:child_process';
 import {mkdtemp,writeFile,readFile,rm} from 'node:fs/promises';
+import {Readable} from 'node:stream';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
-import {validEntryMedia,uploadPaths,inspectUpload,VIDEO_LIMIT,validAboutImage,defaultAboutImage,withAboutImage} from '../local-admin/media.mjs';
+import {validEntryMedia,uploadPaths,inspectUpload,VIDEO_LIMIT,validAboutImage,defaultAboutImage,withAboutImage,ARCHIVE_IMAGE_LIMIT,ARCHIVE_VIDEO_LIMIT,uploadLimit} from '../local-admin/media.mjs';
 const mp4=Buffer.concat([Buffer.from([0,0,0,24]),Buffer.from('ftypisom'),Buffer.alloc(16)]);
 const png=Buffer.from([137,80,78,71,13,10,26,10,0]);
 const entry={id:'test',section:'past',title:'Test event',category:'',date:'',description:'Full description',image:'/assets/sea.jpg'};
 test('legacy covers, media validation and publish file collection',()=>{
  assert.equal(validEntryMedia(entry),true);
+ assert.ok(validEntryMedia({...entry,coverCrop:{zoom:2,x:12,y:86}}));
+ assert.equal(validEntryMedia({...entry,coverCrop:{zoom:4,x:50,y:50}}),false);
+ assert.equal(uploadLimit('video/mp4','past'),900*1024*1024);assert.equal(uploadLimit('image/png','past'),20*1024*1024);
+ assert.ok(inspectUpload(mp4,'video/mp4','past',ARCHIVE_VIDEO_LIMIT));assert.equal(inspectUpload(mp4,'video/mp4','past',ARCHIVE_VIDEO_LIMIT+1),null);
+ assert.ok(inspectUpload(png,'image/png','past',ARCHIVE_IMAGE_LIMIT));assert.equal(inspectUpload(png,'image/png','past',ARCHIVE_IMAGE_LIMIT+1),null);
  assert.deepEqual(withAboutImage({entries:[entry]}).aboutImage,defaultAboutImage);
  assert.ok(validAboutImage(defaultAboutImage));
  for(const invalid of [{...defaultAboutImage,zoom:0.5},{...defaultAboutImage,x:101},{...defaultAboutImage,y:NaN},{...defaultAboutImage,src:'/uploads/video.mp4'}])assert.equal(validAboutImage(invalid),false);
@@ -35,7 +41,7 @@ test('upload, save, reload, preview ranges and publish all media atomically',asy
   const headers={Cookie:login.headers.get('set-cookie').split(';')[0],Origin:base,'Content-Type':'application/json'};
   const api=async(endpoint,options={})=>{const r=await fetch(base+'/api/'+endpoint,{...options,headers:{...headers,...options.headers}});const data=await r.json();assert.equal(r.status,200,JSON.stringify(data));return data;};
   const doc=await api('archive');const photo=await api('upload',{method:'POST',headers:{'Content-Type':'image/png'},body:png});const video=await api('upload',{method:'POST',headers:{'Content-Type':'video/mp4'},body:mp4});
-  assert.equal(video.type,'video');const entries=[{...doc.entries[0],summary:'Short preview',media:[{type:photo.type,src:photo.url},{type:video.type,src:video.url}]}];
+  assert.equal(video.type,'video');const entries=[{...doc.entries[0],summary:'Short preview',coverCrop:{zoom:1.8,x:23,y:71},media:[{type:photo.type,src:photo.url},{type:video.type,src:video.url}]}];
   const aboutPhoto=await api('upload',{method:'POST',headers:{'Content-Type':'image/png'},body:png});const aboutImage={src:aboutPhoto.url,zoom:1.75,x:32,y:68};
   assert.deepEqual(doc.aboutImage,defaultAboutImage);
   let draft=await api('archive',{method:'PUT',body:JSON.stringify({action:'draft',entries,aboutImage,revision:doc.revision})});assert.deepEqual((await api('archive')).entries,entries);assert.deepEqual((await api('archive')).aboutImage,aboutImage);
@@ -47,10 +53,20 @@ test('upload, save, reload, preview ranges and publish all media atomically',asy
   const range=await fetch(base+'/DE-Cinema'+video.url,{headers:{Range:'bytes=4-11'}});assert.equal(range.status,206);assert.equal(range.headers.get('content-type'),'video/mp4');assert.equal(await range.text(),'ftypisom');
   assert.equal((await fetch(base+'/DE-Cinema'+video.url,{headers:{Range:'bytes=999-'}})).status,416);
   const invalid=await fetch(base+'/api/archive',{method:'PUT',headers,body:JSON.stringify({action:'draft',entries:[{...entry,media:[{type:'video',src:'/uploads/../../private.mp4'}]}],revision:draft.revision})});assert.equal(invalid.status,400);
+  // Real streaming transfer at the configured 900 MB boundary when requested;
+  // otherwise 26 MB exercises Release publication without filling memory.
+  const videoSize=process.env.CINEMA_LARGE_UPLOAD_TEST==='1'?ARCHIVE_VIDEO_LIMIT:26*1024*1024;
+  async function* videoChunks(){yield mp4;let remaining=videoSize-mp4.length;const chunk=Buffer.alloc(512*1024);while(remaining>0){const count=Math.min(remaining,chunk.length);yield chunk.subarray(0,count);remaining-=count;}}
+  const big=await api('upload?section=past',{method:'POST',duplex:'half',headers:{'Content-Type':'video/mp4','Content-Length':String(videoSize)},body:Readable.from(videoChunks())});assert.equal(big.size,videoSize);
+  const tail=await fetch(base+'/DE-Cinema'+big.url,{headers:{Range:'bytes=-1024'}});assert.equal(tail.status,206);assert.equal((await tail.arrayBuffer()).byteLength,1024);assert.equal(tail.headers.get('content-range'),`bytes ${videoSize-1024}-${videoSize-1}/${videoSize}`);
+  const maxImage=Buffer.alloc(ARCHIVE_IMAGE_LIMIT);png.copy(maxImage);const image20=await api('upload?section=past',{method:'POST',headers:{'Content-Type':'image/png'},body:maxImage});assert.equal(image20.size,ARCHIVE_IMAGE_LIMIT);
+  const imageTooLarge=await fetch(base+'/api/upload?section=past',{method:'POST',headers:{...headers,'Content-Type':'image/png'},body:Buffer.alloc(ARCHIVE_IMAGE_LIMIT+1)});assert.equal(imageTooLarge.status,413);
+  entries[0].media.push({type:'video',src:big.url});
   const published=await api('archive',{method:'PUT',body:JSON.stringify({action:'publish',entries,revision:draft.revision})});assert.equal(published.commit,'a'.repeat(40));assert.deepEqual(published.publishedAboutImage,aboutImage);
   const requests=(await readFile(log,'utf8')).trim().split('\n').map(line=>JSON.parse(line));const tree=requests.find(r=>r.endpoint.endsWith('/git/trees')).body;
   assert.deepEqual(tree.tree.map(t=>t.path).sort(),['public'+photo.url,'public'+video.url,'public'+aboutPhoto.url,'public/archive.json'].sort());assert.equal(tree.base_tree,'tree-before');
-  const publicBlob=requests.find(r=>r.endpoint.endsWith('/git/blobs')&&r.body.encoding==='utf-8');assert.deepEqual(JSON.parse(publicBlob.body.content).aboutImage,aboutImage);
+  const videoUpload=requests.find(r=>r.endpoint==='/release-upload');assert.equal(videoUpload.size,videoSize);assert.equal(videoUpload.contentType,'video/mp4');assert.ok(published.entries[0].media.at(-1).src.startsWith('https://github.com/takuchen0909/DE-Cinema/releases/download/archive-media/'));
+  const publicBlob=requests.find(r=>r.endpoint.endsWith('/git/blobs')&&r.body.encoding==='utf-8');assert.deepEqual(JSON.parse(publicBlob.body.content).aboutImage,aboutImage);assert.deepEqual(JSON.parse(publicBlob.body.content).entries[0].coverCrop,entries[0].coverCrop);assert.equal(JSON.parse(publicBlob.body.content).entries[0].media.at(-1).src,published.entries[0].media.at(-1).src);
   await writeFile(archive,JSON.stringify({entries,aboutImage}));const synced=await api('sync',{method:'POST',body:'{}'});assert.deepEqual(synced.aboutImage,aboutImage);assert.deepEqual(synced.publishedAboutImage,aboutImage);
   const update=requests.find(r=>r.endpoint.endsWith('/git/refs/heads/main'));assert.equal(update.body.force,false);
  }finally{if(child.exitCode===null){child.kill();await new Promise(r=>child.once('exit',r));}await rm(state,{recursive:true,force:true});}

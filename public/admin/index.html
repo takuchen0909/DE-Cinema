@@ -41,9 +41,20 @@
       <label class="field"><span>Date</span><input data-field="date"></label>
       <label class="field"><span>Hover summary (optional)</span><textarea data-field="summary" rows="2" maxlength="140"></textarea><small>Up to 140 characters for the card preview. Leave empty to shorten the description automatically.</small></label>
       <label class="field"><span>Description</span><textarea data-field="description" rows="5" maxlength="30000"></textarea></label>
-      <label class="field cover-field"><span>Cover image</span><input id="upload" type="file" accept="image/jpeg,image/png,image/webp,image/gif"><small id="upload-state"></small></label>
-      <div class="cover-preview"><img id="cover" alt="Current cover" hidden><button id="remove-cover">Remove image</button></div>
-      <label class="field cover-field"><span>Event photos &amp; videos</span><input id="media-upload" type="file" multiple accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,.mp4,.webm"><small>Select several files. Images: up to 10 MB each. MP4 / WebM videos: up to 25 MB each (MP4 with H.264 recommended). Up to 30 items. The cover appears first in the carousel.</small><small id="media-upload-state" role="status"></small></label>
+      <label class="field cover-field"><span>Cover image</span><input id="upload" type="file" accept="image/jpeg,image/png,image/webp,image/gif"><small id="cover-limit"></small><small id="upload-state"></small></label>
+      <div id="cover-settings" hidden>
+        <div class="crop-layout">
+          <div><div id="cover-crop" class="cover-crop"><img id="cover" alt="Cover crop preview" draggable="false"></div><p class="crop-note">Drag the image to adjust the square archive cover. The original photo in the event gallery stays uncropped.</p></div>
+          <div class="crop-controls">
+            <label class="field"><span>Zoom / crop <output id="cover-zoom-value"></output></span><input id="cover-zoom" data-cover-field="zoom" type="range" min="1" max="3" step="0.01"></label>
+            <label class="field"><span>Horizontal position <output id="cover-x-value"></output></span><input id="cover-x" data-cover-field="x" type="range" min="0" max="100" step="1"></label>
+            <label class="field"><span>Vertical position <output id="cover-y-value"></output></span><input id="cover-y" data-cover-field="y" type="range" min="0" max="100" step="1"></label>
+            <button type="button" id="cover-reset">Reset crop</button>
+            <button type="button" id="remove-cover">Remove image</button>
+          </div>
+        </div>
+      </div>
+      <label class="field cover-field"><span>Event photos &amp; videos</span><input id="media-upload" type="file" multiple accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,.mp4,.webm"><small id="media-limits">Select several files. Images: up to 10 MB each. MP4 / WebM videos: up to 25 MB each (MP4 with H.264 recommended). Up to 30 items. The cover appears first in the carousel.</small><small id="media-upload-state" role="status"></small></label>
       <div id="media-list" class="media-list" aria-label="Event photos and videos"></div>
     </main>
     <section id="about-editor" class="editor" hidden>

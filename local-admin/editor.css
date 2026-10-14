@@ -106,3 +106,9 @@ dialog a{border-bottom:1px solid currentColor}
 #about-reset{border:1px solid var(--border);padding:10px 16px}
 #about-upload-state:empty{display:none}
 @media(max-width:600px){.crop-layout{grid-template-columns:1fr}.about-crop{width:180px}.crop-controls{padding-top:8px}}
+
+.cover-crop{position:relative;overflow:hidden;aspect-ratio:1;width:100%;background:var(--background);border:1px solid var(--border);cursor:grab;touch-action:none}
+.cover-crop:active{cursor:grabbing}
+.cover-crop img{display:block;width:100%;height:100%;object-fit:cover;pointer-events:none;user-select:none}
+#cover-settings{margin:0 0 28px}
+#cover-reset,#remove-cover{padding:8px 12px;border:1px solid var(--border);margin:0 8px 12px 0}

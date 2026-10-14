@@ -65,3 +65,14 @@ Social media 的信封按钮展开 `info@decinema.nl`，点击邮箱可以写信
 本地后台的 **ABOUT US** 面板可以更换图片（最大 10 MB），通过拖动、横向/纵向滑块调整位置，并用 100%–300% 缩放控制裁剪范围。裁剪是非破坏性的，原始文件保留；`Reset crop` 恢复居中、100%。Desktop / Mobile 提供两种取景预览，实际显示范围随屏幕尺寸变化。
 
 `Save draft` 保存图片及取景设置，然后点击 `Preview saved draft on website` 查看页面。`Publish changes` 将图片和设置一起发布。ABOUT US 桌面端文字与图片按 3:2 分栏，三段正文使用相同字号与常规字重；手机端上下排列。
+
+
+## ARCHIVE 封面及大文件
+
+ARCHIVE 项目中的 `Cover image` 可上传替换封面，并通过拖动、100%–300% 缩放以及横向/纵向滑块裁剪正方形卡片封面。`Reset crop` 恢复居中。裁剪只影响列表封面，详情轮播保留原图。
+
+ARCHIVE 图片每张最大 **20 MB**，MP4 / WebM 视频每个最大 **900 MB**（按 1024 × 1024 字节计算），文件数量仍最多 30 项。NEWS 保持图片 10 MB、视频 25 MB；ABOUT US 图片保持 10 MB。
+
+上传界面显示进度；视频在本地以流式方式保存和播放。大于 25 MB 的视频点击 `Publish changes` 后上传到同一 GitHub 仓库的 `Archive media` Release，网站保存公开播放链接，避免超出普通 Git 文件和 Pages 构建大小限制。发布期间请保持后台运行。上传失败时可重试，已完成的视频附件会复用；从条目移除视频不会删除已发布的附件，以免破坏旧引用。
+
+大文件验证：`CINEMA_LARGE_UPLOAD_TEST=1 node --test tests/local-admin.test.mjs` 实际传输 900 MB 测试视频到临时本地服务，并模拟 GitHub Release 发布，测试后自动清理。不会将测试文件上传到线上。

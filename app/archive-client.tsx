@@ -1,6 +1,6 @@
 "use client";
 import {useEffect,useRef,useState,type FormEvent} from "react";
-import {initialEntries,assetSrc,entrySummary,defaultAboutImage,type AboutImage,type Entry} from "../lib/archive";
+import {initialEntries,assetSrc,entrySummary,coverStyle,defaultAboutImage,type AboutImage,type Entry} from "../lib/archive";
 
 import {EventGallery} from "../components/event-gallery";
 
@@ -195,7 +195,7 @@ export default function Archive() {
   }
   function archiveSection(section:"news"|"past",title:string){
     const entries=published.filter(entry=>entry.section===section);
-    return <section className="archive-section page-section" id={section}><div className="section-heading"><h2><Typewriter text={title}/></h2></div><div className="card-grid">{entries.map(entry=><a key={entry.id} className="card" href={"#entry/"+entry.id}><div className="cover">{entry.image?<img src={assetSrc(entry.image)} decoding="async" loading="lazy" alt={entry.title}/>:<div className="placeholder"><img src={assetSrc("/assets/logo.webp")} alt=""/></div>}{(entry.date||entrySummary(entry))&&<div className="card-overlay">{entrySummary(entry)&&<p className="card-summary">{entrySummary(entry)}</p>}{entry.date&&<p>{entry.date}</p>}</div>}</div><div className="card-body"><h3><Typewriter text={entry.title}/><span aria-hidden="true">↗</span></h3>{entry.category&&<p className="category">{entry.category}</p>}</div></a>)}</div>{entries.length===0&&<p>No entries published yet.</p>}{section==="news"&&error&&<p className="public-error" role="status">{error}</p>}</section>;
+    return <section className="archive-section page-section" id={section}><div className="section-heading"><h2><Typewriter text={title}/></h2></div><div className="card-grid">{entries.map(entry=><a key={entry.id} className="card" href={"#entry/"+entry.id}><div className="cover">{entry.image?<img src={assetSrc(entry.image)} style={coverStyle(entry)} decoding="async" loading="lazy" alt={entry.title}/>:<div className="placeholder"><img src={assetSrc("/assets/logo.webp")} alt=""/></div>}{(entry.date||entrySummary(entry))&&<div className="card-overlay">{entrySummary(entry)&&<p className="card-summary">{entrySummary(entry)}</p>}{entry.date&&<p>{entry.date}</p>}</div>}</div><div className="card-body"><h3><Typewriter text={entry.title}/><span aria-hidden="true">↗</span></h3>{entry.category&&<p className="category">{entry.category}</p>}</div></a>)}</div>{entries.length===0&&<p>No entries published yet.</p>}{section==="news"&&error&&<p className="public-error" role="status">{error}</p>}</section>;
   }
   const item=published.find(entry=>entry.id===detail);
   return <>
