@@ -95,7 +95,16 @@
       "description": "Today, we seek more representations of \"mothers\"-not confined to motherhood itself, but turning the lens toward the quieter sides of life: the days where illness and forgetting intertwine; the moments of living with pressure and learning to move with it; the journeys between loss and encounter; and countless other moments that resist naming.\n\nThanks to the filmmakers who share these lived experiences, we are able to see these complex and precious worlds, where \"nurturing\" continues through the transmission of images.\n\nDE Cinema is pleased to officially announce the first chapter of our long-term documentary series \"Wrinkled Stories.\"\n\nThis series traces multiple pathways of nonfiction cinema-from collective structural realities to the intimate textures of individual life and memory-inviting audiences to enter the layered folds of human experience.\n\nFor this upcoming screening, we will present three non-fiction films selected for the 2025 Film for Mother @filmformother\n\nDancing with Pork Belly and the Shantytown, Mrs Lei, and A House without The Poet.\nOver two days and four screenings, we invite audiences to join us in the intimate space of @ferrybooks for an ongoing dialogue.\n\nDay 1 | Saturday | 12/6 \n14:00-16:00 - Dancing with Pork Belly and the Shantytown\n16:00-16:25 - Online Q&A with the director\n16:25-17:30 - Intermission\n17:30-19:05 - Mrs Lei\n\nDay 2 | Sunday | 12/7\n14:30-15:30 - A House without The Poet\n15:30-16:00 - Online Q&A with the director\n16:00-17:00 - Intermission\n17:00-19:00 - Dancing with Pork Belly and the Shantytown\n\n📍 : Ferry Books (Voorburgstraat 207, 3037 ER Rotterdam)",
       "summary": "",
       "image": "/uploads/d54ebca514a4459985b2ceafbe479da6.png",
-      "media": [],
+      "media": [
+        {
+          "type": "image",
+          "src": "/uploads/3d759753cc3cd02227c8a790147e57f1.jpg"
+        },
+        {
+          "type": "image",
+          "src": "/uploads/ba8aeb6901bf21618c60c2d840a552aa.jpg"
+        }
+      ],
       "coverCrop": {
         "zoom": 1,
         "x": 50,
@@ -266,7 +275,16 @@
       "description": "Today, we seek more representations of \"mothers\"-not confined to motherhood itself, but turning the lens toward the quieter sides of life: the days where illness and forgetting intertwine; the moments of living with pressure and learning to move with it; the journeys between loss and encounter; and countless other moments that resist naming.\n\nThanks to the filmmakers who share these lived experiences, we are able to see these complex and precious worlds, where \"nurturing\" continues through the transmission of images.\n\nDE Cinema is pleased to officially announce the first chapter of our long-term documentary series \"Wrinkled Stories.\"\n\nThis series traces multiple pathways of nonfiction cinema-from collective structural realities to the intimate textures of individual life and memory-inviting audiences to enter the layered folds of human experience.\n\nFor this upcoming screening, we will present three non-fiction films selected for the 2025 Film for Mother @filmformother\n\nDancing with Pork Belly and the Shantytown, Mrs Lei, and A House without The Poet.\nOver two days and four screenings, we invite audiences to join us in the intimate space of @ferrybooks for an ongoing dialogue.\n\nDay 1 | Saturday | 12/6 \n14:00-16:00 - Dancing with Pork Belly and the Shantytown\n16:00-16:25 - Online Q&A with the director\n16:25-17:30 - Intermission\n17:30-19:05 - Mrs Lei\n\nDay 2 | Sunday | 12/7\n14:30-15:30 - A House without The Poet\n15:30-16:00 - Online Q&A with the director\n16:00-17:00 - Intermission\n17:00-19:00 - Dancing with Pork Belly and the Shantytown\n\n📍 : Ferry Books (Voorburgstraat 207, 3037 ER Rotterdam)",
       "summary": "",
       "image": "/uploads/d54ebca514a4459985b2ceafbe479da6.png",
-      "media": [],
+      "media": [
+        {
+          "type": "image",
+          "src": "/uploads/3d759753cc3cd02227c8a790147e57f1.jpg"
+        },
+        {
+          "type": "image",
+          "src": "/uploads/ba8aeb6901bf21618c60c2d840a552aa.jpg"
+        }
+      ],
       "coverCrop": {
         "zoom": 1,
         "x": 50,
@@ -347,5 +365,5 @@
       }
     }
   ],
-  "revision": 1793487408329
+  "revision": 1793576518855
 }
